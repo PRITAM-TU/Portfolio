@@ -1,0 +1,9 @@
+@import "tailwindcss";
+ body{
+    overflow-x: hidden;
+  }
+  @media (max-width: 768px) {
+    html{
+      overflow-x: hidden;
+    }
+  }
