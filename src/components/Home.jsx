@@ -9,17 +9,6 @@ const Home = () => {
       className="hero-3d relative overflow-hidden min-h-screen flex items-center" 
       style={{ backgroundColor: '#212121', color: '#ffffff' ,}}
     >
-      {/* Spline animation container (left side) */}
-      <div className="absolute top-0 h-full z-0 
-           left-0 w-full 
-           md:left-[200px] md:w-[calc(100%-200px)]
-           lg:left-[380px] lg:w-[calc(100%-380px)]
-           xl:left-[380px] xl:w-1/2">
-        <Spline 
-          scene="https://prod.spline.design/a25TVybJ4CDLOcRC/scene.splinecode"
-          className="w-full h-full"
-        />
-      </div>
       
       {/* Canvas element for potential 3D effects */}
       <canvas id="hero-canvas" className="absolute inset-0 -z-10"></canvas>

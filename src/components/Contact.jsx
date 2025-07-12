@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 const Contact = () => {
   // Animation variants
@@ -64,6 +65,54 @@ const Contact = () => {
     }
   };
 
+  useEffect(() => {
+    // Form submission
+    const contactForm = document.querySelector('#contact form');
+    if (contactForm) {
+      const handleSubmit = function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.innerHTML;
+        
+        // Show loading state
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+        
+        fetch(this.action, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            submitButton.innerHTML = '<i class="fas fa-check mr-2"></i> Message Sent!';
+            this.reset();
+          } else {
+            submitButton.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> Error!';
+          }
+        })
+        .catch(error => {
+          submitButton.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> Error!';
+        })
+        .finally(() => {
+          setTimeout(() => {
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonText;
+          }, 3000);
+        });
+      };
+
+      contactForm.addEventListener('submit', handleSubmit);
+      
+      // Cleanup function to remove the event listener
+      return () => {
+        contactForm.removeEventListener('submit', handleSubmit);
+      };
+    }
+  }, []);
+
   return (
     <motion.section
       id="contact"
@@ -73,6 +122,7 @@ const Contact = () => {
       animate="visible"
       variants={containerVariants}
     >
+      
       <div className="container mx-auto px-6">
         <motion.div 
           className="text-center mb-16"
